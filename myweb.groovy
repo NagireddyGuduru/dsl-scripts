@@ -35,3 +35,4 @@ branches.each { branchName ->
             }
           }
    }
+}
