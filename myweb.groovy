@@ -30,13 +30,8 @@ branches.each { branchName ->
         }
         steps {
            // shell("rm -rf *")
-            copyArtifacts("wss-${build_number}-build") {
-                buildSelector {
-                    latestSuccessful(true)
-                }
-            }
             environmentVariables {
-                propertiesFile("config/env_vars.properties")
+                propertiesFile("env_vars.properties")
             }
           }
    }
