@@ -26,11 +26,11 @@ branches.each { branchName ->
             categories(['fit'])
         }
         wrappers {
-            buildName(getBuildName(shortName, "aat"))
+            buildName(getBuildName(build_number, "qa"))
         }
         steps {
            // shell("rm -rf *")
-            copyArtifacts("wss-${shortName}-build") {
+            copyArtifacts("wss-${build_number}-build") {
                 buildSelector {
                     latestSuccessful(true)
                 }
