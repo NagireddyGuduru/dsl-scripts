@@ -19,7 +19,7 @@ branches.each { branchName ->
     def build_number = '$BUILD_NUMBER'
     
    
-    freeStyleJob("myweb-${build_number}-qa") {
+    freeStyleJob("myweb-build_number-qa") {
        // label("win2008r2-wss")
         logRotator(-1,5)
         throttleConcurrentBuilds {
