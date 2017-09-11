@@ -14,25 +14,30 @@ def getBuildName(def branchName, def jobName) {
 * Start of the loop to create pipeline for each branch
 */
 branches.each { branchName ->
-    //def shortName = branchName.replaceAll('origin/','').replaceAll('elopment','').replace('/', '-')
-   // def tag_name = 'build/${VERSION/%\\0/$BUILD_NUMBER}'
+    def shortName = branchName.replaceAll('origin/','').replaceAll('elopment','').replace('/', '-')
+    def tag_name = 'build/${VERSION/%\\0/$BUILD_NUMBER}'
     def build_number = '$BUILD_NUMBER'
     
    
-    freeStyleJob("myweb-build_number-qa") {
+    freeStyleJob("myweb-${shortName}-qa") {
        // label("win2008r2-wss")
         logRotator(-1,5)
         throttleConcurrentBuilds {
             categories(['fit'])
         }
         wrappers {
-            buildName(getBuildName(build_number, "qa"))
+            buildName(getBuildName(shortName, "qa"))
         }
         steps {
            // shell("rm -rf *")
+            copyArtifacts("wss-${shortName}-build") {
+                buildSelector {
+                    latestSuccessful(true)
+                }
+            }
             environmentVariables {
                 propertiesFile("env_vars.properties")
             }
           }
    }
-}
+   }
