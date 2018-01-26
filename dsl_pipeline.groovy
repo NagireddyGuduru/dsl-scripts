@@ -1,7 +1,7 @@
-folder('HPSIM') {
+folder('PIPELINE_JOB/CODEADDAGURU') {
         description('hpsim project foloder created')
 }
-freeStyleJob('HPSIM/compile') {
+freeStyleJob('PIPELINE_JOB/CODEADDAGURU/compile') {
     logRotator(-1, 10)
     scm {
         github('NagireddyGuduru/myweb', 'master')
@@ -10,10 +10,10 @@ freeStyleJob('HPSIM/compile') {
         maven('clean compile')
     }
     publishers {
-        downstream('HPSIM/test', 'SUCCESS')
+        downstream('PIPELINE_JOB/CODEADDAGURU/test', 'SUCCESS')
     }
 }
-mavenJob('HPSIM/test') {
+mavenJob('PIPELINE_JOB/CODEADDAGURU/test') {
     logRotator(-1, 10)
      scm {
         github('NagireddyGuduru/myweb', 'master')
@@ -21,32 +21,32 @@ mavenJob('HPSIM/test') {
     goals('clean test')
    
    publishers {
-        downstream('HPSIM/sonar', 'SUCCESS')
+        downstream('PIPELINE_JOB/CODEADDAGURU/sonar', 'SUCCESS')
     }
 }
-mavenJob('HPSIM/sonar') {
+mavenJob('PIPELINE_JOB/CODEADDAGURU/sonar') {
     logRotator(-1, 10)
      scm {
         github('NagireddyGuduru/myweb', 'master')
     }
     goals('clean sonar:sonar')
   publishers {
-        downstream('HPSIM/nexus', 'SUCCESS')
+        downstream('PIPELINE_JOB/CODEADDAGURU/nexus', 'SUCCESS')
     }
 }
-mavenJob('HPSIM/nexus') {
+mavenJob('PIPELINE_JOB/CODEADDAGURU/nexus') {
     logRotator(-1, 10)
      scm {
         github('NagireddyGuduru/myweb', 'master')
     }
     goals('clean deploy')
 }
-buildPipelineView('HPSIM/build-pipeline') {
+buildPipelineView('PIPELINE_JOB/CODEADDAGURU/build-pipeline') {
     filterBuildQueue()
     filterExecutors()
-    title('hpsim CI Pipeline')
+    
     displayedBuilds(5)
-    selectedJob('HPSIM/compile')
+    selectedJob('PIPELINE_JOB/CODEADDAGURU/compile')
     alwaysAllowManualTrigger()
     showPipelineParameters()
     refreshFrequency(60)
